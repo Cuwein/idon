@@ -1,0 +1,366 @@
+/* style.css - enhanced: falling hearts, confetti canvas, pop animations, responsive */
+:root {
+  --navy: #0b3d91; /* Navy Blue */
+  --gold: #d4af37; /* Gold */
+  --wine: #7f1734; /* Wine */
+  --sky: #9bd4ec; /* Sky Blue */
+  --card-bg: #fffaf7;
+  --accent1: #ffb86b;
+  --accent2: #ff6bcb;
+}
+
+/* baseline */
+* {
+  box-sizing: border-box;
+}
+h1 {
+  color: #0b3d91;
+}
+body,
+html,
+#root {
+  height: 100%;
+  margin: 0;
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+}
+.page-root {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: linear-gradient(135deg, #fff8f9 0%, #f0f9ff 50%, #fffef6 100%);
+  overflow-x: hidden;
+}
+
+/* card */
+.card {
+  width: 920px;
+  max-width: 96vw;
+  background: var(--card-bg);
+  border-radius: 16px;
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  padding-bottom: 18px;
+}
+
+/* envelope area */
+.envelope {
+  width: 460px;
+  height: 280px;
+  margin: 22px auto;
+  position: relative;
+  cursor: pointer;
+  perspective: 1200px;
+}
+.flap {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 60%;
+  background: linear-gradient(180deg, #ffffff 0%, #fff0f3 100%);
+  border-radius: 12px 12px 0 0;
+  transform-origin: top;
+  transition: transform 0.75s cubic-bezier(0.2, 0.9, 0.3, 1);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+.envelope.open .flap {
+  transform: rotateX(-180deg);
+}
+.body {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 40%;
+  bottom: 0;
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.invite-card {
+  width: 92%;
+  height: 86%;
+  border-radius: 12px;
+  background: #c8c9f0;
+  overflow: hidden;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+  transition: transform 0.6s;
+}
+.envelope.open .invite-card {
+  transform: translateY(-22px);
+}
+.envelope.revealed .invite-card {
+  transform: translateY(-160px);
+}
+.invite-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.overlay-text {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 14px;
+  color: gold;
+  background: linear-gradient(180deg, transparent, rgba(173, 212, 218, 0.45));
+  text-align: center;
+}
+.overlay-text h2 {
+  margin: 4px 0;
+  font-size: 20px;
+}
+.overlay-text p {
+  font-size: 13px;
+  margin: 0;
+}
+
+/* info block */
+.info {
+  padding: 22px 28px;
+}
+.info h1 {
+  margin: 0;
+  color: var(--navy);
+  font-size: 28px;
+}
+.info p {
+  color: #444;
+  margin-top: 8px;
+}
+.when {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 12px;
+  gap: 12px;
+}
+.when-left .badge {
+  display: inline-block;
+  padding: 6px 10px;
+  border-radius: 8px;
+  background: linear-gradient(90deg, var(--sky), #8ad7ff);
+  color: #073b5a;
+  font-weight: 600;
+}
+.date {
+  font-weight: 700;
+  margin-top: 6px;
+}
+.place {
+  color: #666;
+  font-size: 14px;
+}
+.when-right {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.save-btn {
+  background: linear-gradient(90deg, var(--accent1), var(--accent2));
+  border: none;
+  padding: 10px 14px;
+  border-radius: 999px;
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(255, 107, 181, 0.12);
+}
+.download-btn {
+  background: linear-gradient(90deg, var(--sky), #4b6ef6);
+  padding: 10px 14px;
+  border-radius: 999px;
+  color: white;
+  text-decoration: none;
+}
+.colours {
+  margin-top: 14px;
+  color: #444;
+  font-size: 14px;
+}
+
+/* countdown panel: pop animation */
+.countdown-panel {
+  position: fixed;
+  left: 50%;
+  top: 14%;
+  transform: translateX(-50%);
+  min-width: 320px;
+  background: linear-gradient(180deg, #ffffff, #fffaf6);
+  border-radius: 14px;
+  padding: 18px 20px;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.18);
+  z-index: 60;
+  border: 6px solid rgba(255, 255, 255, 0.6);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.pop {
+  animation: popIn 0.45s cubic-bezier(0.2, 0.9, 0.25, 1) both;
+}
+@keyframes popIn {
+  0% {
+    transform: translateX(-50%) scale(0.5);
+    opacity: 0;
+  }
+  60% {
+    transform: translateX(-50%) scale(1.08);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(-50%) scale(1);
+    opacity: 1;
+  }
+}
+.countdown-panel h3 {
+  margin: 0;
+  color: var(--wine);
+}
+.countdown-panel .small {
+  color: #666;
+  margin-top: 6px;
+}
+.time-grid {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+.pill {
+  min-width: 70px;
+  padding: 12px;
+  border-radius: 12px;
+  background: linear-gradient(180deg, #fff, #f3f6ff);
+  text-align: center;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+  transform-origin: center;
+}
+.num {
+  font-weight: 900;
+  font-size: 20px;
+  color: #111;
+}
+.label {
+  font-size: 12px;
+  color: #444;
+}
+.close {
+  position: absolute;
+  right: 10px;
+  top: 8px;
+  background: transparent;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+/* each pill bounce slightly when revealed */
+.bounce {
+  animation: bounceIn 0.5s cubic-bezier(0.2, 0.9, 0.25, 1) both;
+}
+@keyframes bounceIn {
+  0% {
+    transform: translateY(-8px) scale(0.85);
+    opacity: 0;
+  }
+  60% {
+    transform: translateY(4px) scale(1.06);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+/* Falling hearts */
+.falling-hearts {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 800;
+  overflow: hidden;
+}
+.f-heart {
+  position: absolute;
+  top: -6%;
+  font-size: 22px;
+  transform-origin: center;
+  animation-name: heartFall;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  will-change: transform, top, opacity;
+}
+@keyframes heartFall {
+  0% {
+    transform: translateY(-10vh) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.25;
+  }
+  60% {
+    transform: translateY(80vh) rotate(360deg);
+    opacity: 0.75;
+  }
+  100% {
+    transform: translateY(110vh) rotate(720deg);
+    opacity: 0;
+  }
+}
+
+/* responsive tweaks */
+@media (max-width: 720px) {
+  .envelope {
+    width: 340px;
+    height: 220px;
+  }
+  .invite-card {
+    border-radius: 10px;
+  }
+  .card {
+    padding-bottom: 12px;
+  }
+  .info {
+    padding: 14px;
+  }
+  .info h1 {
+    font-size: 20px;
+  }
+  .countdown-panel {
+    min-width: 280px;
+    top: 8%;
+  }
+  .f-heart {
+    font-size: 18px;
+  }
+}
+
+/* small screens */
+@media (max-width: 420px) {
+  .envelope {
+    width: 300px;
+    height: 190px;
+  }
+  .when {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .info p {
+    font-size: 14px;
+  }
+}
