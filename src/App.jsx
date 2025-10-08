@@ -264,9 +264,6 @@ export default function App() {
               >
                 Save the Date
               </button>
-              <a className="download-btn" href="/Invite.jpg" download>
-                Download Invite
-              </a>
             </div>
           </div>
 
